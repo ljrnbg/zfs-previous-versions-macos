@@ -7,8 +7,14 @@
 # Finder Quick Action for browsing and restoring previous versions of files
 # stored on mounted ZFS/TrueNAS shares exposing .zfs/snapshot.
 #
+# Repository:
+# https://github.com/ljrnbg/zfs-previous-versions-macos
+#
+# License: MIT
+#
 # No external dependencies required.
 # =============================================================================
+
 
 
 # =============================================================================
