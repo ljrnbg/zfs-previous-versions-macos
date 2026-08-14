@@ -12,7 +12,23 @@ No Xcode, Homebrew, Python or third-party application is required.
      alt="ZFS Previous Versions for macOS"
      width="600">
      
----
+
+### ⬇️ Download
+
+**[Download the latest version](https://github.com/ljrnbg/zfs-previous-versions-macos/releases/latest/download/ZFS-Previous-Versions.workflow.zip)**
+
+## Installation
+
+1. Download `ZFS Previous Versions.workflow`.
+2. Open the workflow file.
+3. Install the Finder Quick Action when prompted by macOS.
+4. On first use, macOS may ask for permission to allow the workflow to control Finder. Allow this permission.
+5. In Finder, right-click a file stored on a compatible share.
+6. Choose:
+
+   **Quick Actions → ZFS Previous Versions**
+
+> The installation procedure will be verified once more before the public v1.0 release.
 
 ## Features
 
@@ -91,18 +107,7 @@ It may also work with other ZFS/Samba implementations that expose snapshots thro
 
 ---
 
-## Installation
 
-1. Download `ZFS Previous Versions.workflow`.
-2. Open the workflow file.
-3. Install the Finder Quick Action when prompted by macOS.
-4. On first use, macOS may ask for permission to allow the workflow to control Finder. Allow this permission.
-5. In Finder, right-click a file stored on a compatible share.
-6. Choose:
-
-   **Quick Actions → ZFS Previous Versions**
-
-> The installation procedure will be verified once more before the public v1.0 release.
 
 ## Automator Workflow
 
