@@ -8,8 +8,10 @@ It provides a macOS alternative to the convenient **“Previous Versions”** fe
 
 No Xcode, Homebrew, Python or third-party application is required.
 
-![ZFS Previous Versions for macOS](screenshots/zfs-previous-versions-macos.png)
-
+<img src="screenshots/zfs-previous-versions-macos.png"
+     alt="ZFS Previous Versions for macOS"
+     width="600">
+     
 ---
 
 ## Features
