@@ -352,6 +352,39 @@ The current version is functional and the complete GitHub download/install workf
 
 Before v1.0, the main goals are broader testing across additional macOS and TrueNAS versions, local-network testing, larger files and additional file types.
 
+
+## Roadmap / possible future directions
+
+Version 0.9 intentionally focuses on a small and simple use case: browsing and restoring individual files from ZFS snapshots exposed through `.zfs/snapshot`.
+
+Possible future directions include:
+
+* **Windows Server / VSS support**
+  Investigate support for SMB shares backed by Windows Server Volume Shadow Copy Service (VSS), allowing the same Finder Quick Action to browse Windows “Previous Versions” in addition to ZFS snapshots.
+
+* **Broader SMB snapshot support**
+  Explore whether additional SMB server implementations and snapshot mechanisms can be supported without relying specifically on `.zfs/snapshot`.
+
+* **Performance improvements**
+  Further optimize scanning of very large snapshot sets or high-latency remote shares, potentially including optional caching or smarter snapshot selection.
+
+* **Large-file restore options**
+  Improve handling of very large files, for example with configurable or automatic restore verification behavior.
+
+* **Configurable restore destination**
+  Allow users to choose between Downloads, Desktop or another local folder.
+
+* **Folder or multi-file support**
+  Explore restoring previous states of folders or multiple selected files while keeping the current safety-oriented behavior.
+
+* **Additional languages**
+  Extend the existing localization dictionary with further translations contributed by users.
+
+* **Broader platform testing**
+  Test and improve compatibility with additional macOS versions, Intel Macs, TrueNAS SCALE and other ZFS/Samba environments.
+
+These are ideas rather than committed features. The project will remain focused on keeping the workflow lightweight, understandable and dependency-free.
+
 ---
 
 ## License
