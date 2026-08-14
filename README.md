@@ -9,26 +9,58 @@ It provides a macOS alternative to the convenient **“Previous Versions”** fe
 No Xcode, Homebrew, Python or third-party application is required.
 
 <img src="screenshots/zfs-previous-versions-macos.png"
-     alt="ZFS Previous Versions for macOS"
-     width="600">
-     
+  alt="ZFS Previous Versions for macOS"
+  width="600">
 
-### ⬇️ Download
+---
+
+## ⬇️ Download
 
 **[Download the latest version](https://github.com/ljrnbg/zfs-previous-versions-macos/releases/latest/download/ZFS-Previous-Versions.workflow.zip)**
 
+The download contains a self-contained Finder Quick Action. No separate script installation is required.
+
+---
+
 ## Installation
 
-1. Download `ZFS Previous Versions.workflow`.
-2. Open the workflow file.
-3. Install the Finder Quick Action when prompted by macOS.
-4. On first use, macOS may ask for permission to allow the workflow to control Finder. Allow this permission.
-5. In Finder, right-click a file stored on a compatible share.
-6. Choose:
+1. **Download** the ZIP archive using the link above.
+
+2. **Extract** `ZFS-Previous-Versions.workflow.zip`.
+
+3. Double-click:
+
+   `ZFS Previous Versions.workflow`
+
+4. macOS opens the Quick Action installer. Click **Install**.
+
+<img src="screenshots/install-quick-action.png"
+  alt="Install ZFS Previous Versions Quick Action"
+  width="600">
+
+5. Because the workflow was downloaded from the Internet and is not code-signed, macOS displays an additional security confirmation. Click **Install** again if you want to continue.
+
+<img src="screenshots/install-internet-downloaded-workflow.png"
+  alt="macOS security confirmation for the downloaded workflow"
+  width="600">
+
+6. The Quick Action is now available in Finder. Right-click a file stored on a compatible ZFS/TrueNAS share and choose:
 
    **Quick Actions → ZFS Previous Versions**
 
-> The installation procedure will be verified once more before the public v1.0 release.
+<img src="screenshots/finder-quick-action-menu.png"
+  alt="ZFS Previous Versions in the Finder Quick Actions menu"
+  width="600">
+
+7. On first use, macOS may ask for permission to allow the workflow to control Finder. This is required for displaying the native dialogs and revealing restored files.
+
+### Security note
+
+The workflow is currently **not code-signed**. The additional macOS confirmation shown above is therefore expected for a workflow downloaded from the Internet.
+
+The complete source code is available in [`source/zfs-previous-versions.zsh`](source/zfs-previous-versions.zsh) and is also embedded directly in the Automator workflow.
+
+---
 
 ## Features
 
@@ -85,7 +117,7 @@ No Xcode, Homebrew, Python or third-party application is required.
   After a successful restore, Finder opens the Downloads folder and selects the restored file.
 
 * **Self-contained Automator workflow**
-  The complete script can be embedded directly inside the `.workflow` file. No separate scripts or runtime dependencies are required.
+  The complete script is embedded directly inside the `.workflow` file. No separate scripts or runtime dependencies are required.
 
 ---
 
@@ -107,16 +139,6 @@ It may also work with other ZFS/Samba implementations that expose snapshots thro
 
 ---
 
-
-
-## Automator Workflow
-
-<img src="screenshots/automator-workflow.png"
-     alt="Self-contained Automator workflow"
-     width="700">
-
----
-
 ## How it works
 
 When a file is selected, the workflow:
@@ -132,6 +154,20 @@ When a file is selected, the workflow:
 9. Reveals the restored file in Finder.
 
 The source file and the ZFS snapshots remain untouched.
+
+---
+
+## Under the hood
+
+The downloadable Quick Action is a standard macOS Automator workflow containing a single `/bin/zsh` action.
+
+The entire script is embedded directly in the workflow:
+
+<img src="screenshots/automator-workflow.png"
+  alt="Self-contained Automator workflow"
+  width="700">
+
+The same code is also provided separately in the `source` directory for easier review and development.
 
 ---
 
@@ -162,7 +198,7 @@ After copying a selected snapshot version, the local copy is compared byte-for-b
 
 This provides additional confidence that the restored file is complete and identical.
 
-For very large files or very slow remote connections this causes the snapshot file to be read across the network a second time.
+For very large files or very slow remote connections, this causes the snapshot file to be read across the network a second time.
 
 Advanced users can disable this behavior by changing:
 
@@ -250,8 +286,9 @@ Version 0.9 has currently been tested with:
 * **Largest file tested so far:** approximately 4.6 MB
 * **File types tested so far:** `.docx`, `.pdf`
 * **Filenames tested with:** spaces and German umlauts
+* **Distribution:** installation from a GitHub-downloaded `.workflow.zip` successfully tested
 
-Additional local-network and file-type testing is planned before v1.0.
+Additional local-network, file-type and large-file testing is planned before v1.0.
 
 ---
 
@@ -311,9 +348,9 @@ The code is published as a preview and further testing and review are welcome.
 
 **v0.9 — Preview**
 
-The current version is functional and in active testing.
+The current version is functional and the complete GitHub download/install workflow has been successfully tested on the environment listed above.
 
-The goal for v1.0 is to verify installation/distribution from a downloaded Automator workflow and expand testing across additional macOS, TrueNAS and file-size scenarios.
+Before v1.0, the main goals are broader testing across additional macOS and TrueNAS versions, local-network testing, larger files and additional file types.
 
 ---
 
