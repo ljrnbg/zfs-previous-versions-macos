@@ -104,6 +104,12 @@ It may also work with other ZFS/Samba implementations that expose snapshots thro
 
 > The installation procedure will be verified once more before the public v1.0 release.
 
+## Automator Workflow
+
+<img src="screenshots/automator-workflow.png"
+     alt="Self-contained Automator workflow"
+     width="700">
+
 ---
 
 ## How it works
