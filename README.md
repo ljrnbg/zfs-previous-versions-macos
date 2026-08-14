@@ -60,6 +60,19 @@ The workflow is currently **not code-signed**. The additional macOS confirmation
 
 The complete source code is available in [`source/zfs-previous-versions.zsh`](source/zfs-previous-versions.zsh) and is also embedded directly in the Automator workflow.
 
+## Uninstall
+
+To remove the Quick Action:
+
+1. In Finder, choose **Go → Go to Folder…** (`⌘⇧G`).
+2. Enter:
+
+   `~/Library/Services`
+
+3. Move `ZFS Previous Versions.workflow` to the Trash.
+
+No additional files, background services or dependencies are installed.
+
 ---
 
 ## Features
