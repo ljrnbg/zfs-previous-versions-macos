@@ -375,6 +375,9 @@ Possible future directions include:
 * **Windows Server / VSS support**
   Investigate support for SMB shares backed by Windows Server Volume Shadow Copy Service (VSS), allowing the same Finder Quick Action to browse Windows “Previous Versions” in addition to ZFS snapshots.
 
+* **Multiple version selection**
+  Allow selecting and restoring several historical versions of the same file in a single operation.
+
 * **Broader SMB snapshot support**
   Explore whether additional SMB server implementations and snapshot mechanisms can be supported without relying specifically on `.zfs/snapshot`.
 
