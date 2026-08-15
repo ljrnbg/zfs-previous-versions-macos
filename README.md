@@ -287,7 +287,8 @@ Version 0.9 has currently been tested with:
 
 * **macOS:** macOS Sequoia 15.7.2
 * **Mac:** MacBook Air 15-inch (M3, 2024), Apple Silicon
-* **TrueNAS:** TrueNAS CORE 13.0-U6.8 and TrueNAS SCALE 25.10.5 (Goldeye)* **Filesystem:** ZFS
+* **TrueNAS:** TrueNAS CORE 13.0-U6.8 and TrueNAS SCALE 25.10.5 (Goldeye)
+* **Filesystem:** ZFS
 * **Protocol:** SMB
 * **Finder integration:** Automator Quick Action
 * **Snapshot interval:** hourly periodic snapshots
@@ -342,6 +343,14 @@ Performance depends on:
 * VPN/WireGuard latency
 
 The default value can be adjusted if required.
+
+### Real-world experience
+
+In testing, scanning **200+ hourly snapshots over a WireGuard/VPN connection (100/40 Mbit/s)** was not instantaneous, but remained usable for occasional file recovery.
+
+Scan times can vary noticeably between runs, as the operation involves many SMB metadata requests and is therefore particularly sensitive to network latency.
+
+Local-network performance is expected to be significantly better.
 
 ---
 
