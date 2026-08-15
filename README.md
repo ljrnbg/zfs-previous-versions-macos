@@ -146,7 +146,7 @@ No additional files, background services or dependencies are installed.
 
 * Finder access to the snapshot directories
 
-The project is primarily intended for **TrueNAS SMB shares**, but there are no hard-coded TrueNAS server or share names.
+The project has been tested with both **TrueNAS CORE and TrueNAS SCALE SMB shares**, but there are no hard-coded TrueNAS server or share names.
 
 It may also work with other ZFS/Samba implementations that expose snapshots through `.zfs/snapshot`.
 
@@ -287,8 +287,7 @@ Version 0.9 has currently been tested with:
 
 * **macOS:** macOS Sequoia 15.7.2
 * **Mac:** MacBook Air 15-inch (M3, 2024), Apple Silicon
-* **TrueNAS:** TrueNAS CORE 13.0-U6.8
-* **Filesystem:** ZFS
+* **TrueNAS:** TrueNAS CORE 13.0-U6.8 and TrueNAS SCALE 25.10.5 (Goldeye)* **Filesystem:** ZFS
 * **Protocol:** SMB
 * **Finder integration:** Automator Quick Action
 * **Snapshot interval:** hourly periodic snapshots
@@ -311,8 +310,7 @@ Feedback is especially welcome for:
 
 * other macOS versions
 * Intel Macs
-* TrueNAS SCALE
-* other TrueNAS CORE versions
+* other TrueNAS CORE/SCALE versions
 * other ZFS/Samba implementations
 * different snapshot naming schemes
 * very large snapshot sets
@@ -397,7 +395,7 @@ Possible future directions include:
   Extend the existing localization dictionary with further translations contributed by users.
 
 * **Broader platform testing**
-  Test and improve compatibility with additional macOS versions, Intel Macs, TrueNAS SCALE and other ZFS/Samba environments.
+  Test and improve compatibility with additional macOS versions, Intel Macs, TrueNAS versions and other ZFS/Samba environments.
 
 These are ideas rather than committed features. The project will remain focused on keeping the workflow lightweight, understandable and dependency-free.
 
