@@ -353,7 +353,7 @@ This project started as an experiment to recreate the Windows **“Previous Vers
 
 Version 0.9 was developed interactively with **ChatGPT by OpenAI (GPT-5.6 Sol)**. The implementation was iteratively reviewed, adapted and tested against a real TrueNAS/ZFS environment by the project author.
 
-The code is published as a preview and further testing and review are welcome.
+This is a preview release. Feedback, testing and code review are very welcome.
 
 ---
 
