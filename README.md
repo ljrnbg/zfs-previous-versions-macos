@@ -1,6 +1,6 @@
 # ZFS Previous Versions for macOS
 
-**Version 0.9 — Preview**
+**Version 0.9.1 — Preview**
 
 A lightweight Finder Quick Action for browsing and safely restoring previous file versions from **TrueNAS/ZFS snapshots on macOS**.
 
@@ -83,8 +83,8 @@ No additional files, background services or dependencies are installed.
 * **TrueNAS / ZFS snapshot support**
   Reads previous versions directly from the mounted share's `.zfs/snapshot` directory.
 
-* **Automatic volume detection**
-  No server name, share name or mount path is hard-coded.
+  * **Automatic SMB mount detection**
+  Detects the actual mounted SMB filesystem automatically. No server name, share name or mount path is hard-coded, and custom mount points outside `/Volumes` are supported.
 
 * **Shows actual file versions instead of every snapshot**
   Consecutive snapshots containing the same file modification time and size are collapsed into a single entry.
@@ -138,7 +138,7 @@ No additional files, background services or dependencies are installed.
 
 * macOS
 
-* A mounted filesystem/share containing ZFS snapshots
+* A mounted SMB share containing ZFS snapshots
 
 * Snapshot access through:
 
@@ -156,7 +156,7 @@ It may also work with other ZFS/Samba implementations that expose snapshots thro
 
 When a file is selected, the workflow:
 
-1. Detects the mounted volume automatically.
+1. Detects the actual SMB mount point automatically.
 2. Locates its `.zfs/snapshot` directory.
 3. Checks all available snapshots for the selected file.
 4. Performs the metadata requests in parallel.
@@ -241,7 +241,7 @@ If no recognizable timestamp exists, a filesystem-safe version of the snapshot n
 
 ## Localization
 
-Version 0.9 includes:
+Current versions include:
 
 * English
 * German
@@ -283,7 +283,7 @@ The restored version is always created as a separate local copy.
 
 ## Tested environment
 
-Version 0.9 has currently been tested with:
+The current preview version has been tested with:
 
 * **macOS:** macOS Sequoia 15.7.2
 * **Mac:** MacBook Air 15-inch (M3, 2024), Apple Silicon
@@ -293,13 +293,15 @@ Version 0.9 has currently been tested with:
 * **Finder integration:** Automator Quick Action
 * **Snapshot interval:** hourly periodic snapshots
 * **Snapshot access:** `.zfs/snapshot` through the mounted SMB share
-* **Remote access:** WireGuard/VPN
+* **Network access:** local LAN and WireGuard/VPN
 * **Visible snapshots:** 200+
 * **Distinct versions of a single file:** at least 18
 * **Largest file tested so far:** approximately 4.6 MB
 * **File types tested so far:** `.docx`, `.pdf`
 * **Filenames tested with:** spaces and German umlauts
 * **Distribution:** installation from a GitHub-downloaded `.workflow.zip` successfully tested
+* **Custom SMB mount points:** tested below the user's home directory
+* **Mount paths with spaces:** tested successfully
 
 Additional local-network, file-type and large-file testing is planned before v1.0.
 
@@ -318,7 +320,6 @@ Feedback is especially welcome for:
 * large individual files
 * files without extensions
 * additional Unicode characters and languages
-* other mounted ZFS filesystems
 
 ---
 
@@ -358,7 +359,7 @@ Local-network performance is expected to be significantly better.
 
 This project started as an experiment to recreate the Windows **“Previous Versions”** experience for ZFS SMB shares on macOS.
 
-Version 0.9 was developed interactively with **ChatGPT by OpenAI (GPT-5.6 Sol)**. The implementation was iteratively reviewed, adapted and tested against a real TrueNAS/ZFS environment by the project author.
+The project was developed interactively with **ChatGPT by OpenAI (GPT-5.6 Sol)**. The implementation was iteratively reviewed, adapted and tested against a real TrueNAS/ZFS environment by the project author.
 
 This is a preview release. Feedback, testing and code review are very welcome.
 
@@ -366,16 +367,26 @@ This is a preview release. Feedback, testing and code review are very welcome.
 
 ## Status
 
-**v0.9 — Preview**
+**v0.9.1 — Preview**
 
-The current version is functional and the complete GitHub download/install workflow has been successfully tested on the environment listed above.
+Current preview release.
+
+### v0.9.1 changes
+
+* Automatically detects the actual macOS SMB mount point.
+* Supports SMB shares mounted outside `/Volumes`.
+* Supports custom mount points below the user's home directory.
+* Handles mount paths containing spaces.
+* Keeps compatibility with standard `/Volumes/...` SMB mounts.
+
+The complete GitHub download/install workflow has been successfully tested on the environments listed above.
 
 Before v1.0, the main goals are broader testing across additional macOS and TrueNAS versions, local-network testing, larger files and additional file types.
 
 
 ## Roadmap / possible future directions
 
-Version 0.9 intentionally focuses on a small and simple use case: browsing and restoring individual files from ZFS snapshots exposed through `.zfs/snapshot`.
+The current preview intentionally focuses on a small and simple use case: browsing and restoring individual files from ZFS snapshots exposed through `.zfs/snapshot`.
 
 Possible future directions include:
 
