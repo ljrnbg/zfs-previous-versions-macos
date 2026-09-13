@@ -83,7 +83,7 @@ No additional files, background services or dependencies are installed.
 * **TrueNAS / ZFS snapshot support**
   Reads previous versions directly from the mounted share's `.zfs/snapshot` directory.
 
-  * **Automatic SMB mount detection**
+* **Automatic SMB mount detection**
   Detects the actual mounted SMB filesystem automatically. No server name, share name or mount path is hard-coded, and custom mount points outside `/Volumes` are supported.
 
 * **Shows actual file versions instead of every snapshot**
