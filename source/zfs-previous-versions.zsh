@@ -2,7 +2,7 @@
 
 # =============================================================================
 # ZFS Previous Versions for macOS
-# Version 0.9
+# Version 0.9.1
 #
 # Finder Quick Action for browsing and restoring previous versions of files
 # stored on mounted ZFS/TrueNAS shares exposing .zfs/snapshot.
@@ -21,7 +21,7 @@
 # Configuration
 # =============================================================================
 
-SCRIPT_VERSION="0.9"
+SCRIPT_VERSION="0.9.1"
 
 # Number of parallel SMB metadata requests.
 #
@@ -76,7 +76,7 @@ I18N=(
     'en.no_folder'              'Please select a file, not a folder.'
     'en.no_symlink'             'Symbolic links are not supported.'
     'en.not_found'              'The selected file could not be found.'
-    'en.not_volume'             'The selected file is not located on a mounted volume.'
+    'en.not_volume'             'The selected file is not located on a mounted SMB share.'
 
     'en.no_snapshot_access'     'No ZFS snapshot directory is accessible for the volume “%s”.'
     'en.no_snapshots'           'No ZFS snapshots were found for the volume “%s”.'
@@ -109,7 +109,7 @@ I18N=(
     'de.no_folder'              'Bitte eine Datei auswählen, keinen Ordner.'
     'de.no_symlink'             'Symbolische Links werden nicht unterstützt.'
     'de.not_found'              'Die ausgewählte Datei wurde nicht gefunden.'
-    'de.not_volume'             'Die ausgewählte Datei liegt nicht auf einem eingebundenen Volume.'
+    'de.not_volume'             'Die ausgewählte Datei liegt nicht auf einer eingebundenen SMB-Freigabe.'
 
     'de.no_snapshot_access'     'Für das Volume „%s“ ist kein ZFS-Snapshot-Verzeichnis erreichbar.'
     'de.no_snapshots'           'Für das Volume „%s“ wurden keine ZFS-Snapshots gefunden.'
@@ -303,32 +303,97 @@ fi
 
 
 # =============================================================================
-# Determine the mounted volume automatically
+# Determine the actual SMB mount point automatically
 #
-# Example:
+# macOS normally mounts network shares below /Volumes, but SMB shares can also
+# be mounted at arbitrary locations, for example:
 #
-#   /Volumes/TRT-Daten/Projects/example.docx
+#   /Users/lukas/mnt/Family
 #
-# becomes:
+# Therefore the mount point must not be derived from the file path itself.
+# Instead, query the currently mounted smbfs filesystems and select the longest
+# mount point that is a parent of the selected file.
 #
-#   MOUNT_POINT=/Volumes/TRT-Daten
-#   RELATIVE_PATH=Projects/example.docx
+# Examples:
 #
-# No share or server name is hard-coded.
+#   File:
+#     /Volumes/TRT-Daten/Projects/example.docx
+#
+#   Detected mount point:
+#     /Volumes/TRT-Daten
+#
+#   File:
+#     /Users/lukas/mnt/Family/Documents/example.pdf
+#
+#   Detected mount point:
+#     /Users/lukas/mnt/Family
+#
+# No server name, share name or mount location is hard-coded.
 # =============================================================================
 
-if [[ "$FILE" != /Volumes/*/* ]]; then
+find_smb_mount_point() {
+
+    local TARGET_PATH="$1"
+    local MOUNT_LINE=""
+    local CANDIDATE=""
+    local BEST_MATCH=""
+
+    # /sbin/mount -t smbfs lists only currently mounted SMB filesystems.
+    #
+    # Typical output:
+    #
+    #   //user@server/share on /Volumes/share (smbfs, ...)
+    #
+    # Mount points containing spaces are kept intact because lines are read
+    # without word splitting.
+    while IFS= read -r MOUNT_LINE; do
+
+        [[ "$MOUNT_LINE" == *" on "* ]] || continue
+        [[ "$MOUNT_LINE" == *" (smbfs"* ]] || continue
+
+        # Remove the SMB source and the trailing filesystem information.
+        CANDIDATE="${MOUNT_LINE#* on }"
+        CANDIDATE="${CANDIDATE%%" (smbfs"*}"
+
+        # Some mount output variants escape spaces as \040.
+        CANDIDATE="${CANDIDATE//\\040/ }"
+
+        # Normalize a trailing slash, except for the filesystem root.
+        if [[ "$CANDIDATE" != "/" ]]; then
+            CANDIDATE="${CANDIDATE%/}"
+        fi
+
+        # The selected file must either be the mount point itself or be located
+        # below it. If multiple mount points match, use the longest one so that
+        # nested mounts are handled correctly.
+        if [[ "$TARGET_PATH" == "$CANDIDATE" ||
+              "$TARGET_PATH" == "$CANDIDATE/"* ]]; then
+
+            if (( ${#CANDIDATE} > ${#BEST_MATCH} )); then
+                BEST_MATCH="$CANDIDATE"
+            fi
+
+        fi
+
+    done < <(/sbin/mount -t smbfs 2>/dev/null)
+
+    print -r -- "$BEST_MATCH"
+}
+
+
+MOUNT_POINT="$(find_smb_mount_point "$FILE")"
+
+
+if [[ -z "$MOUNT_POINT" ]]; then
     show_alert "$(t not_volume)" "warning"
     exit 0
 fi
 
 
-VOLUME_PATH="${FILE#/Volumes/}"
-VOLUME_NAME="${VOLUME_PATH%%/*}"
+# Use the final mount-point component only for human-readable messages.
+VOLUME_NAME="${MOUNT_POINT:t}"
 
-MOUNT_POINT="/Volumes/$VOLUME_NAME"
 SNAPSHOT_ROOT="$MOUNT_POINT/.zfs/snapshot"
-
 RELATIVE_PATH="${FILE#$MOUNT_POINT/}"
 
 
